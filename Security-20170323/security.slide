@@ -1,0 +1,173 @@
+IT & Data Security
+(and why they matter)
+12:30 23 Mar 2017
+Tags: security, IT
+
+James Duerden
+Developer, Market Dojo
+james.duerden@marketdojo.com
+
+* Agenda
+- What We Mean By 'Security'
+- Why We Care
+- Passwords (and attacks thereon)
+- Patching (not your problem?)
+- Encrypted Data Transfer and Storage
+- Physical Security
+- Phishing and Social Engineering
+
+Slides will be available on Google Drive, for the hard of hearing
+
+* What do we mean by 'Security'?
+
+This might sound like a stupid question, but it's worth unpacking.
+
+- Broad spectrum of concerns
+
+: Locks on doors
+: Encryption on laptops
+: Keeping everything up to date
+: Not taking strangers at face value
+
+- Multiple avenues of attack
+
+- Hacking
+- Insider attack
+- Social engineering
+- Malware
+- DOS
+
+* Why should we care?
+
+Despite not being a bank or government, this matters.
+
+- Proprietary customer data
+: OMW, for example, or Baker Wanless suppliers
+- Proprietary MD data
+: Do we actually have any of this?
+: Budgets, salaries, prospects, user lists
+- Potential disruption to services
+: Sales' laptops represent ability to sell, infrastructure represents ability to serve the site(s)
+
+* Passwords
+: We all use passwords. Not new, but worth covering.
+Requirements
+
+- Unique
+: Who uses a password manager?
+: Is the password for it the same as for things you had before you started using one?
+: Is the password weak, reducing the security of all your passwords?
+: Who uses the same password all over the place?
+- Long
+: Pick your most commonly used password. How many letters?
+: Length more important than most things, though not using dictionary words helps
+: Rainbow tables
+- Secret
+: No names, pet's names, partners, children, birthdays, anniversaries
+: Ideally should be meaningless.
+: Possibility space is huge, shrinking that is necessary for any attack.
+: Using personal information makes it easy.
+- Memorable (with help)
+: Password managers
+: Environmental cues
+
+* A better solution - Two Factor Authentication
+- Will integrate as an option for MD once on up to date version of Rails
+- Requires the user to both know something and have something
+- Still vulnerable to hardware access
+
+* Mandatory XKCD:
+.image https://imgs.xkcd.com/comics/password_strength.png _ 600
+
+: Explain about stolen hashes
+: Explain about rate limiting and brute force attacks
+: Rubber hose cryptanalysis
+
+* Patching
+- Antivirus can only do so much.
+- Software updates are generally either bugfixes or security fixes.
+: How often does everyone click 'remind me tomorrow' on their update prompts?
+: Zero day exploits
+.image http://assets.amuniversal.com/e96f82206cca01301d50001dd8b71c47 _ 900
+
+* Encrypted/Obscured Data Transfer and Storage
+- HTTPS Everywhere possible
+: HTTPSEverywhere Chrome extension
+- Transferring passwords
+: Voice, ideally in person
+: No Dead Trees
+- Do not use email for proprietary information
+: Assume anything you put in an email is public.
+: If you're not sure whether you want something visible to the general public, pick up the phone.
+- We are not likely to come under attack by a nation state (they could just get a warrant), so concerns about phone tapping not relevant in this instance.
+- PGP
+: We ought to be setting this up for forward secrecy etc, but it's a bit 'techy' and therefore has not taken off well.
+- Laptop full disk encryption
+- DO NOT USE MS Device Encryption!
+: Uploads recovery key to MS servers, means that you don't actually have full control over access.
+- Recommended substitute: VeraCrypt
+
+* Our infrastructure takes another approach
+
+- SSH and VPN
+- Certificate authentication
+- Restrictive firewalls
+: Access from only within the VPN, with access to the VPN restricted to just one server and authenticated by certificate rather than password.
+
+Only people designated for server access can generate authentication certificates.
+Only people with authentication certificates can access the server.
+: This does present some issues with bootstrapping; the setup process amounts to making a hole in a wall that doesn't exist yet, building the wall, and then pulling the hole in behind you.
+- We probably can't insist that our clients have access certificates... yet.
+- This means we will remain vulnerable to password breaches.
+
+* Physical Security
+- Avoid dead trees
+: Loss, theft, fire, cannot be encrypted easily, cannot be remotely destroyed
+- USB Sticks
+: Don't. No, really. There's a reason many organisations ban them entirely.
+: USB flash drives are a very powerful attack vector.
+: They bypass whatever security you have on your email/internet, have hardware access to your computer.
+: Can contain malware of effectively arbitrary size, including in firmware.
+.link https://www.usbkill.com/usb-killer/13-usb-killer-v3.html#/2-edition-anonymous_editio USBKiller
+- Loss or Theft of Equipment
+
+* Phishing and Social Engineering
+- You are better known than you think
+: Limit personal information
+: LinkedIn
+: Facebook
+: Email signatures
+: Electoral Roll Search
+- Beware yellow jackets and clipboards
+- Friendly phone voices
+- "Oh, didn't that PDF work? How weird, let me try again."
+: Metasploit framework, buffer overflows, arbitrary code execution
+- "We use this screenshare software you've never heard of, could you install the other end please?"
+: Self-inflicted issues
+- "I'll send all this over on a stick for you to look at, it's too big for email"
+: Do I need to remind you about USB sticks?
+- "Yes, the RFI Excel spreadsheet uses macros to work, honestly"
+: No, never. Do not enable macros in Office documents of any kind, they could be almost literally any VBASIC program they've chosen to embed.
+
+* What to do with compromised hardware
+
+Compromised hardware remains compromised until cleaned. USB sticks should just be destroyed.
+
+: USB sticks are not to be considered persistent storage. They're not backups, use Google Drive, Dropbox, or something similar.
+- Minimum requirement is wipe clean (DBAN) and reinstall Windows/OSX from scratch.
+- Keep good, regular backups of anything irreplaceable
+: That means to behave as if every Friday without fail your laptop will be taken from you and put through an industrial shredder.
+- Do not connect compromised hardware to the company network, Google Drive, or the internet if possible.
+- Do not back up _after_ becoming compromised
+: Should go without saying, but you risk backing up the infection or a vector for it.
+.image http://i.imgur.com/cAFOwQ3.gif _ 400
+
+* That being said...
+
+Sometimes, you're just screwed.
+.image https://pbs.twimg.com/media/C7MvJB0UwAQUip9.jpg
+: Hack conducted at Pwn2Own hacking competition
+: Widely used VM software and browser
+: Complete compromise. This is what is meant by a zero day exploit; the company has zero days to rectify the problem before it becomes unacceptable risk.
+: This is NOT bashing Windows. These flaws are everywhere, and it just takes one or two very smart people to find and daisychain them to turn a minor browser flaw into a full scale panic for a major software company.
+
